@@ -28,24 +28,18 @@ class Instapaper extends Plugin
 
     public function get_js()
     {
-        return file_get_contents(dirname(__FILE__).'/instapaper.js');
-
+        return file_get_contents(__DIR__.'/instapaper.js');
     }//end get_js()
+
+    function get_css() {
+        return file_get_contents(__DIR__ . "/instapaper.css");
+    }
 
 
     public function hook_article_button($line)
     {
-        $article_id = $line['id'];
-
-        $rv = "<img src=\"plugins/instapaper/instapaper.png\"
-                class='tagsPic' style=\"cursor : pointer\"
-            onclick=\"shareArticleToInstapaper($article_id)\"
-            title='".__('Read it Later')."'>";
-
-        return $rv;
-
+        return "<i class='icon-instapaper' onclick='shareArticleToInstapaper({$line["id"]})' style='cursor : pointer' title=\"".__('Read it Later')."\">Instapaper</i>";
     }//end hook_article_button()
-
 
     public function getInfo()
     {

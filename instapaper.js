@@ -13,3 +13,14 @@ function shareArticleToInstapaper(id) {
         console.error("[ttrss-instapaper-plugin]", e);
     }
 }
+
+require(['dojo/_base/kernel', 'dojo/ready'], function  (dojo, ready) {
+    ready(function () {
+        App.hotkey_actions['instapaper']=() => {
+            const id = Article.getActive();
+            if (id) {
+               shareArticleToInstapaper(id);
+            }
+         };
+    });
+});

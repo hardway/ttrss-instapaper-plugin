@@ -1,10 +1,7 @@
 <?php
 // Modifyed based on andyt's version (https://tt-rss.org/oldforum/viewtopic.php?f=22&t=1401)
-class Instapaper extends Plugin
-{
-
+class Instapaper extends Plugin{
     private $host;
-
 
     public function about()
     {
@@ -22,9 +19,9 @@ class Instapaper extends Plugin
         $this->host = $host;
 
         $host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
+        $host->add_hook($host::HOOK_HOTKEY_MAP, $this);
 
     }//end init()
-
 
     public function get_js()
     {
@@ -35,10 +32,20 @@ class Instapaper extends Plugin
         return file_get_contents(__DIR__ . "/instapaper.css");
     }
 
+    function hook_hotkey_map($hotkeys) {
+        // Trigger App.hotkey_actions
+        $hotkeys['i'] = "instapaper";
+
+        // VIM style scrolling
+        $hotkeys["j"] = "article_scroll_down";
+        $hotkeys["k"] = "article_scroll_up";
+        return $hotkeys;
+    }
 
     public function hook_article_button($line)
     {
-        return "<i class='icon-instapaper' onclick='shareArticleToInstapaper({$line["id"]})' style='cursor : pointer' title=\"".__('Read it Later')."\">Instapaper</i>";
+        return "<i class='icon-instapaper' onclick='shareArticleToInstapaper({$line["id"]})' style='cursor : pointer' title=\"".__('Read it Later')."\">Instapaper</i>
+        ";
     }//end hook_article_button()
 
     public function getInfo()
